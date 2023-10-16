@@ -33,15 +33,16 @@ secondButton.addEventListener("click", () => {
         }
     } else {
         choicesDiv.remove();
-        secondButton.remove();
+        secondButton.parentElement.remove();
 
         let containerEpicode = document.getElementById("container-epicode");
-        let template1 = document.getElementsByTagName("template")[0];
-        let questionTitle = template1.content.firstElementChild.cloneNode(true);
-        let template2 = document.getElementsByTagName("template")[1];
-        let answersDiv = template2.content.firstElementChild.cloneNode(true);
-        let template3 = document.getElementsByTagName("template")[2];
-        let quizInfo = template3.content.firstElementChild.cloneNode(true);
+        let questionTitle = document.createElement("p");
+        questionTitle.id = "question";
+        questionTitle.classList.add("center");
+        let answersDiv = document.createElement("div");
+        answersDiv.id = "answers";
+        let quizInfo = document.createElement("div");
+        quizInfo.id = "quiz-info";
         containerEpicode.append(questionTitle);
         containerEpicode.append(answersDiv);
         containerEpicode.append(quizInfo);
@@ -52,6 +53,7 @@ secondButton.addEventListener("click", () => {
         prosegui.id = "answer-button";
         prosegui.classList.add("button");
         prosegui.classList.add("inter");
+        prosegui.innerText = "PROCEED";
         quizInfo.append(prosegui);
 
         startTest(questionsNumber, difficulty);
@@ -66,39 +68,62 @@ function startTest (questionsNumber, difficulty) {
 
     fetch(fetchString).then(res => res.json()).then(domande => {
         questions = domande.results;
+        console.log(questions);
         let score = 0;
-        let questionNumber = 0;
+        let questionNumber = 0; //FIN QUI CI SIAMO
 
         generateQuestion(questions, questionsNumber, questionNumber, score);
     });
 }
 
 function generateQuestion (questions, questionsNumber, questionNumber, score) {
-    questionNumber += 1;
-
+    // AGGIUNTA TESTO DELLA DOMANDA
     let questionTitle = document.getElementById("question");
+    questionTitle.innerHTML = questions[questionNumber].question;
+    if(questionTitle.innerHTML.length > 60) {
+        questionTitle.classList.add("small");
+    }
+
+    // EDIT TESTO CONTATORE DOMANDA
+    let questionCounter = document.querySelector("#quiz-info #question-number");
+    questionCounter.innerHTML = `QUESTION ${questionNumber + 1} <span>/ ${questionsNumber}</span>`;
+
+    // RESET DIV DOMANDE
     let answersDiv = document.getElementById("answers");
     answersDiv.innerHTML = "";
-    questionTitle.innerText = question[questionNumber - 1].question;
 
+    // CREAZIONE DOMANDA
     if (questions[questionNumber].type === "multiple") {
-        let row = document.createElement("div");
-        let answerButton = document.createElement("button");
-        row.classList.add("row");
-        answerButton.classList.add("answer");
-        answerButton.classList.add("center");
-        row.append(answerButton);
-        row.append(answerButton);
-        answersDiv.append(row);
-        answersDiv.append(row);
+        let row1 = document.createElement("div");
+        let row2 = document.createElement("div");
+        let answerButton1 = document.createElement("button");
+        let answerButton2 = document.createElement("button");
+        let answerButton3 = document.createElement("button");
+        let answerButton4 = document.createElement("button");
+        row1.classList.add("row");
+        row2.classList.add("row");
+        answerButton1.classList.add("answer");
+        answerButton2.classList.add("answer");
+        answerButton3.classList.add("answer");
+        answerButton4.classList.add("answer");
+        answerButton1.classList.add("center");
+        answerButton2.classList.add("center");
+        answerButton3.classList.add("center");
+        answerButton4.classList.add("center");
+        row1.append(answerButton1);
+        row1.append(answerButton2);
+        row2.append(answerButton3);
+        row2.append(answerButton4);
+        answersDiv.append(row1);
+        answersDiv.append(row2);
         let answerButtons = document.querySelectorAll("#answers .row .answer");
         let array = [];
 
         for (let i = 0; i < 4; i++) {
             if (i < 3) {
-                answerButtons[random[arr]].innerText = questions[questionNumber - 1].incorrect_answers[i];
+                answerButtons[random[arr]].innerHTML = questions[questionNumber][incorrect_answers][i];
             } else {
-                answerButtons[random[arr]].innerText = questions[questionNumber - 1].correct_answer
+                answerButtons[random[arr]].innerHTML = questions[questionNumber][correct_answer];
             }
         }
     } else {
@@ -109,52 +134,42 @@ function generateQuestion (questions, questionsNumber, questionNumber, score) {
         answersDiv.append(label1);
         answersDiv.append(label2);
     }
+
+    let buttons = document.querySelectorAll("#answers .row .answer");
+    let inputs = document.querySelectorAll("#answers label input");
+    let answerButton = document.getElementById("answer-button");
+
+    for (let b of buttons) {
+        b.addEventListener("click", () => {
+            for (let b2 of buttons) {
+                b2.classList.remove("selected");
+            }
+            b.classList.add("selected");
+
+            answerButton.addEventListener("click", () => {
+                let selected = document.querySelector("#answers .row .answer.selected");
+                if (selected.innerText === questions[questionNumber].correct_answer) {
+                    selected.classList.add("correct");
+                    score += 1;
+                } else {
+                    selected.classList.add("wrong");
+                }
+
+                if (questionNumber === questionsNumber - 1) {
+                } else {
+                    generateQuestion(questions, questionsNumber, questionNumber, score);
+                }
+            })
+        })
+    }
 }
 
 function random(arr) {
-    let numeroRandom = Math.floor(Math.random() * 76) + 1;
+    let numeroRandom = Math.floor(Math.random() * 4);
     if (!arr.includes(numeroRandom)) {
         arr.push(numeroRandom);
         return numeroRandom;
     }
 
     return random(arr);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-let score = 0;
-let questionNumber = 1;
-let answers = document.querySelectorAll(".row .answer");
-let answerButton = document.getElementById("answer-button");
-
-for (let answer of answers) {
-    answer.addEventListener("click", () => {
-        answerButton.addEventListener("click", () => {
-            if (true) {
-                answer.classList.add("correct");
-            } else {
-                answer.classList.add("wrong");
-            }
-
-            for (a of answers) {
-                a.classList.remove("selected");
-            }
-
-            answer.classList.add("selected");
-        });
-    });
 }

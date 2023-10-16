@@ -130,9 +130,12 @@ body {
 
 /* DOMANDE */
 #question {
-    padding: 0 150px;
     font-size: 3rem;
     margin-bottom: 60px;
+}
+
+#question.small {
+    font-size: 2rem;
 }
 
 #answers {
