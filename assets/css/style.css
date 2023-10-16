@@ -1,0 +1,66 @@
+/* STILI PREDEFINITI */
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #0b113b;
+    --lightblue: #00ffff;
+    --pink: #d20094;
+    --purple: #900080;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: white;
+}
+
+.inter {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+.center {
+    text-align: center;
+}
+
+.button {
+    width: 200px;
+    height: 55px;
+    color: var(--blue);
+    background-color: var(--lightblue);
+    font-weight: 800;
+    font-size: 1.2rem;
+    border: none;
+    box-shadow: 0 0 20px var(--lightblue);
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: white;
+    color: var(--blue);
+}
+
+/* CONTAINER */
+#container-epicode {
+    width: 945px;
+    height: 100vh;
+    margin: 0 auto;
+    background-image: url(../images/bg.jpg);
+    background-size: cover;
+}
+
+#header-epicode {
+    padding: 35px 90px;
+}
+
+#header-epicode img {
+    width: 145px;
+}
+
+p {
+    color: var(--lightblue);
+    font-size: 100px;
+}
