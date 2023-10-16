@@ -45,6 +45,7 @@ button:hover {
 
 /* CONTAINER */
 #container-epicode {
+    padding: 0 90px;
     width: 945px;
     height: 100vh;
     margin: 0 auto;
@@ -52,15 +53,99 @@ button:hover {
     background-size: cover;
 }
 
+/* HEADER */
 #header-epicode {
-    padding: 35px 90px;
+    padding: 35px 0;
+    margin-bottom: 35px;
+    display: flex;
+    justify-content: space-between;
 }
 
 #header-epicode img {
     width: 145px;
+    height: 33.37px;
 }
 
-p {
-    color: var(--lightblue);
-    font-size: 100px;
+#header-epicode #external-div {
+    width: 102px;
+    height: 102px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: var(--lightblue);
+}
+
+#header-epicode #internal-div {
+    height: 80px;
+    width: 80px;
+    border-radius: 100%;
+    background-color: var(--pink);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#header-epicode #internal-div .write {
+    font-size: 7px;
+}
+
+#header-epicode #internal-div #seconds {
+    font-size: 38px;
+}
+
+/* DOMANDE */
+#question {
+    padding: 0 150px;
+    font-size: 3rem;
+    margin-bottom: 60px;
+}
+
+#answers {
+    margin-bottom: 100px;
+    padding: 0 40px;
+}
+
+#answers .row {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#answers .answer {
+    width: 308px;
+    height: 60px;
+    margin: 0 auto;
+    border: 4px solid white;
+    border-radius: 50px;
+    border-image-slice: 1;
+    background-color: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+}
+
+#answers .answer:hover {
+    background-color: var(--purple);
+}
+
+#answers .answer:active {
+    background-color: var(--pink);
+}
+
+#quiz-info {
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#quiz-info #question-number {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+}
+
+#quiz-info #question-number span {
+    color: var(--pink);
 }
