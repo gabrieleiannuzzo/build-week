@@ -38,9 +38,17 @@ body {
     cursor: pointer;
 }
 
-button:hover {
+.button:hover {
     background-color: white;
     color: var(--blue);
+}
+
+.hide {
+    display: none;
+}
+
+.red-border {
+    border: 2px solid red;
 }
 
 /* CONTAINER */
@@ -94,6 +102,32 @@ button:hover {
     font-size: 38px;
 }
 
+/* SELEZIONE */
+
+#choices .choice {
+    margin-top: 50px;
+}
+
+#choices .choice .choice-p {
+    font-size: 1.5rem;
+}
+
+#choices .choice input, #choices .choice select {
+    margin: 20px 0;
+    height: 30px;
+    width: 200px;
+}
+
+#choices .choice .error {
+    color: red;
+}
+
+#second-button-div {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 50px;
+}
+
 /* DOMANDE */
 #question {
     padding: 0 150px;
@@ -115,9 +149,8 @@ button:hover {
     width: 308px;
     height: 60px;
     margin: 0 auto;
-    border: 4px solid white;
+    outline: 4px solid white;
     border-radius: 50px;
-    border-image-slice: 1;
     background-color: transparent;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
@@ -130,8 +163,24 @@ button:hover {
     background-color: var(--purple);
 }
 
-#answers .answer:active {
+#answers .answer.selected {
     background-color: var(--pink);
+}
+
+#answers .answer.correct {
+    background-color: #00ff00;
+    border: none;
+}
+
+#answers .answer.wrong {
+    background-color: red;
+    border: none;
+}
+
+#answers label {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 50px;
 }
 
 #quiz-info {
