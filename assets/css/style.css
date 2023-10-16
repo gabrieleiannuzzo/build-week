@@ -60,7 +60,13 @@ button:hover {
     width: 145px;
 }
 
-p {
-    color: var(--lightblue);
-    font-size: 100px;
+
+.text-grass {
+    color: white;
+}
+
+.container-title {
+    color: white;
+    height: 500px;
+    background-color: red;
 }
