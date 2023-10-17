@@ -1,0 +1,161 @@
+/* STILI PREDEFINITI */
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #0b113b;
+    --lightblue: #00ffff;
+    --pink: #d20094;
+    --purple: #900080;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: white;
+}
+
+.inter {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+.center {
+    text-align: center;
+}
+
+.button {
+    width: 200px;
+    height: 55px;
+    color: var(--blue);
+    background-color: var(--lightblue);
+    font-weight: 800;
+    font-size: 1.2rem;
+    border: none;
+    box-shadow: 0 0 20px var(--lightblue);
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: white;
+    color: var(--blue);
+}
+
+/* CONTAINER */
+#container-epicode {
+    width: 945px;
+    height: 100vh;
+    margin: 0 auto;
+    background-image: url(../images/bg.jpg);
+    background-size: cover;
+   
+   
+}
+
+#header-epicode {
+    padding: 35px 90px;
+    
+}
+
+#header-epicode img {
+    width: 145px;
+   
+}
+
+p {
+    color: white;
+    font-size: 1.4rem;
+    padding-top: 40px;
+    padding-left: 40px;
+    text-align: center;
+}
+
+.principale p{
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    text-align: center;
+}
+
+
+   .stelle{
+    
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-evenly;
+   }
+
+.stelle svg:hover{
+   transform: scale(1.2);
+
+}
+
+.commento{
+  
+    text-align: center;
+    padding-top: 30px;
+    
+}
+.commento-a{
+    color:white;
+    text-align: center;
+}
+.grassetto{
+    padding-top: 80px;
+
+}
+.stelle{
+    padding-top: 50px;
+    text-align: center;
+}
+.vuote-svg{
+    color: white;
+    background-color: black;
+}
+#contenitore{
+    text-align: center;
+}
+
+h4{
+  margin-top: 30px;
+  font-family: 'Inter', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    text-align: center;
+}
+h5{
+    margin-top: 30px;
+    font-size: 1,2rem;
+    font-weight: 200;
+    text-align: center;
+}
+.titolop{
+    text-align: center;
+    padding-top: 20px;
+}
+input{
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid var(--pink);
+    width: 100%;
+    margin-top: 40px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    text-align: center;
+
+
+}
+button{
+    display: block;
+    margin:0 auto;
+    margin-top: 40px;
+
+}
+.contenitoredue{
+    width: 70%;
+    margin: 0 auto;
+}
