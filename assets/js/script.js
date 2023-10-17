@@ -230,6 +230,12 @@ function generateQuestion (questions, questionsNumber, questionNumber, score, ar
             } else {
                 selected.classList.add("wrong");
                 questionNumber += 1;
+
+                // let correctAnswer = questions[questionNumber].correct_answer;
+                // let answers = document.querySelector(".answer");
+                // for (let answer of answers) {
+                //     if (answer.innerText == correctAnswer) answer.classList.add("correct");
+                // }
             }
 
             if (questionNumber < questions.length) {
