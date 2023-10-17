@@ -39,9 +39,11 @@ secondButton.addEventListener("click", () => {
             });
         }
     } else {
+        // RIMOZIONE SELETTORI NUMERO DI DOMANDE E DIFFICOLTA E BOTTONE
         choicesDiv.remove();
         secondButton.parentElement.remove();
 
+        // GENERAZIONE DIV VUOTI PER DOMANDE E INFO QUIZ
         let containerEpicode = document.getElementById("container-epicode");
         let questionTitle = document.createElement("p");
         questionTitle.id = "question";
@@ -56,6 +58,27 @@ secondButton.addEventListener("click", () => {
         let questionCounter = document.createElement("p");
         questionCounter.id = "question-number";
         quizInfo.append(questionCounter);
+
+        //GENERAZIONE TIMER
+        let header = document.getElementById("header-epicode");
+        let externalDiv = document.createElement("div");
+        let internalDiv = document.createElement("div");
+        let write1 = document.createElement("p");
+        let seconds = document.createElement("p");
+        let write2 = document.createElement("p");
+        externalDiv.id = "external-div";
+        internalDiv.id = "internal-div";
+        internalDiv.classList.add("center");
+        write1.classList.add("write");
+        write2.classList.add("write");
+        seconds.id = "seconds";
+        write1.innerText = "SECONDS";
+        write2.innerText = "REMAINING";
+        header.append(externalDiv);
+        externalDiv.append(internalDiv);
+        internalDiv.append(write1);
+        internalDiv.append(seconds);
+        internalDiv.append(write2);
 
         startTest(questionsNumber, difficulty);
     }
@@ -181,6 +204,20 @@ function generateQuestion (questions, questionsNumber, questionNumber, score, ar
     proceedButton.innerText = "PROCEED";
     quizInfo.append(proceedButton);
 
+    // RESETTO IL TIMER
+    let timer = document.getElementById("seconds");
+    let seconds = 60;
+    let timeEnded = false;
+    timer.innerText = seconds;
+    let timerInterval = setInterval(() => {
+        seconds--;
+        timer.innerText = seconds;
+        if (seconds == 0) {
+            timeEnded = true;
+            proceedButton.click();
+        }
+    }, 1000);
+
     // VEDO SE LA RISPOSTA E GIUSTA, POI SE CI SONO ALTRE DOMANDE GENERO UNA NUOVA DOMANDA, ALTRIMENTI PROCEDO ALLA PAGINA SUCCESSIVA
     proceedButton.addEventListener("click", () => {
         let selected = document.querySelector(".answer.selected");
@@ -197,12 +234,50 @@ function generateQuestion (questions, questionsNumber, questionNumber, score, ar
 
             if (questionNumber < questions.length) {
                 console.log(score);
+                clearInterval(timerInterval);
                 setTimeout(() => {
                     setTimeout(generateQuestion(questions, questionsNumber, questionNumber, score, arrayDomande));
                 }, 1000);
-            } else {
+            } else  {
+                clearInterval(timerInterval);
                 return score;
             }
         } // FIN QUI CI SIAMO
+
+        if (timeEnded) {
+            if (selected) {
+                if (selected.innerHTML == questions[questionNumber].correct_answer) {
+                    selected.classList.add("correct");
+                    score += 1;
+                    questionNumber += 1;
+                } else {
+                    selected.classList.add("wrong");
+                    questionNumber += 1;
+                }
+    
+                if (questionNumber < questions.length) {
+                    console.log(score);
+                    clearInterval(timerInterval);
+                    setTimeout(() => {
+                        setTimeout(generateQuestion(questions, questionsNumber, questionNumber, score, arrayDomande));
+                    }, 1000);
+                } else  {
+                    clearInterval(timerInterval);
+                    return score;
+                }
+            } else {
+                questionNumber += 1;
+                if (questionNumber < questions.length) {
+                    console.log(score);
+                    clearInterval(timerInterval);
+                    setTimeout(() => {
+                        setTimeout(generateQuestion(questions, questionsNumber, questionNumber, score, arrayDomande));
+                    }, 1000);
+                } else  {
+                    clearInterval(timerInterval);
+                    return score;
+                }
+            }
+        }
     });
 }
