@@ -65,8 +65,137 @@ button:hover {
     color: white;
 }
 
-.container-title {
+/* TITLE */
+#container-title{
+    text-align: center;
+}
+
+#title h2 {
+    font-weight: 800;
+    font-size: 2.7rem;   
+}
+
+#title h4  {
+    font-weight: 400;
+    font-size: 1.5rem;
+    padding-top: 5px;
+}
+
+/* ANSWER TEXT */
+#answer-text {
+    width: 100%;
+    overflow: hidden;
+}
+
+/* CORRECT */
+#correct-zone {
+    padding-left: 90px;
+    padding-top: 135px;
+    float: left;
+    text-align: left;
+}
+
+#correct {
+    font-size: 3rem;
+}
+
+#percentuale-correct {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+#questions-correct {
+    font-size: 18px;
+}
+
+/* WRONG */
+#wrong-zone{
+    padding-right: 90px;
+    padding-top: 135px;
+    float: right;
+    text-align: right;
+}
+
+#wrong {
+    font-size: 3rem;
+}
+
+#percentuale-wrong {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+#questions-wrong {
+    font-size: 18px;
+}
+
+/* CIRCLE TEXT */
+#text-circle {
+    text-align: center;
+    padding-top: 135px;
+    
+}
+
+#title-circle {
+    font-weight: bold;
+}
+
+#text-blue {
+    font-weight: bold;
+    color: var(--lightblue);
+    padding-top: 4px;
+}
+
+#text-circle-certificate {
+    padding-top: 23px;
+    padding-left: 360px;
+    padding-right: 360px;
+    font-size: 13px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* BUTTON */
+#button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45vh;
+}
+
+.rate-button {
+    width: 205px;
+    height: 55px;
+    background-color: transparent;
     color: white;
-    height: 500px;
-    background-color: red;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    margin: 10px;
+    cursor: pointer;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+}
+
+.rate-button:hover {
+    background-color: var(--lightblue);
+    color: black;
+    border: 2px solid black;
 }
