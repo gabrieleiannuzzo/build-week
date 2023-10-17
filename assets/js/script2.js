@@ -70,7 +70,7 @@ function startTest (questionsNumber, difficulty) {
         questions = domande.results;
         console.log(questions);
         let score = 0;
-        let questionNumber = 0;
+        let questionNumber = 0; //FIN QUI CI SIAMO
 
         generateQuestion(questions, questionsNumber, questionNumber, score);
     });
@@ -94,30 +94,38 @@ function generateQuestion (questions, questionsNumber, questionNumber, score) {
 
     // CREAZIONE DOMANDA
     if (questions[questionNumber].type === "multiple") {
+        let row1 = document.createElement("div");
+        let row2 = document.createElement("div");
+        let answerButton1 = document.createElement("button");
+        let answerButton2 = document.createElement("button");
+        let answerButton3 = document.createElement("button");
+        let answerButton4 = document.createElement("button");
+        row1.classList.add("row");
+        row2.classList.add("row");
+        answerButton1.classList.add("answer");
+        answerButton2.classList.add("answer");
+        answerButton3.classList.add("answer");
+        answerButton4.classList.add("answer");
+        answerButton1.classList.add("center");
+        answerButton2.classList.add("center");
+        answerButton3.classList.add("center");
+        answerButton4.classList.add("center");
+        row1.append(answerButton1);
+        row1.append(answerButton2);
+        row2.append(answerButton3);
+        row2.append(answerButton4);
+        answersDiv.append(row1);
+        answersDiv.append(row2);
+        let answerButtons = document.querySelectorAll("#answers .row .answer");
         let array = [];
-        let arr = [];
-        for (let i = 0; i < questions[questionNumber].incorrect_answers.length + 1; i++) {
-            // CREO I PULSANTI DELLE RISPOSTE
-            let answerButton = document.createElement("button");
-            answerButton.classList.add("answer");
-            answerButton.classList.add("center");
-            answersDiv.append(answerButton);
 
-            let numeroRandom = random(array, questions[questionNumber].incorrect_answers.length);
-            if (numeroRandom == questions[questionNumber].incorrect_answers.length) {
-                answerButton.innerHTML = questions[questionNumber].correct_answer;
+        // ASSEGNA RANDOMICAMENTE I PULSANTI ALLE RISPOSTE
+        for (let i = 0; i < 4; i++) {
+            if (i < 3) {
+                answerButtons[random[arr]].innerHTML = questions[questionNumber][incorrect_answers][i];
             } else {
-                answerButton.innerHTML = questions[questionNumber].incorrect_answers[numeroRandom - 1];
+                answerButtons[random[arr]].innerHTML = questions[questionNumber][correct_answer];
             }
-
-            answerButton.addEventListener("click", () => {
-                // RESETTO E RIASSEGNO LA SELEZIONE DELLA RISPOSTA
-                let selectedAnswer = document.querySelector(".selected");
-                if (selectedAnswer) selectedAnswer.classList.remove("selected");
-                answerButton.classList.add("selected");
-
-                let proceedButton = document.getElementById("answer-button");
-            });
         }
     } else {
         let label1 = document.createElement("label");
@@ -134,55 +142,32 @@ function generateQuestion (questions, questionsNumber, questionNumber, score) {
 
     for (let b of buttons) {
         b.addEventListener("click", () => {
-            let selectedAnswer = document.querySelector(".selected");
-            if (selectedAnswer) selectedAnswer.classList.remove("selected");
-
+            for (let b2 of buttons) {
+                b2.classList.remove("selected");
+            }
             b.classList.add("selected");
 
-            answerButton.addEventListener("click", proceed());
-
-            function proceed () {
+            answerButton.addEventListener("click", () => {
                 let selected = document.querySelector("#answers .row .answer.selected");
-
                 if (selected.innerHTML === questions[questionNumber].correct_answer) {
                     selected.classList.add("correct");
                     score += 1;
                     questionNumber += 1; // FIN QUI CI SIAMO
-                } else if (selected.innerHTML === questions[questionNumber].incorrect_answers[0] || selected.innerHTML === questions[questionNumber].incorrect_answers[1] || selected.innerHTML === questions[questionNumber].incorrect_answers[2]) {
-                    selected.classList.add("wrong");
-                    questionNumber += 1;
-                }
-
-                if (questionNumber < questionsNumber - 1) {
-                    answerButton.removeEventListener("click", proceed());
-                    setTimeout(generateQuestion(questions, questionsNumber, questionNumber, score), 2000);
                 } else {
+                    selected.classList.add("wrong");
                 }
-            }
-        });
+
+                if (questionNumber === questionsNumber - 1) {
+                } else {
+                    generateQuestion(questions, questionsNumber, questionNumber, score);
+                }
+            })
+        })
     }
-
-    // for (i of inputs) {
-    //     i.addEventListener("click", () => {
-    //         let selctedInput = document.querySelector("#answers label input.selectedInput");
-    //         if (selctedInput) selectedInput.classList.remove("selectedInput");
-
-    //         i.classList.add("selectedInput");
-
-    //         answerButton.addEventListener("click", proceedInput());
-
-    //         function proceedInput () {
-    //             let selectedInput2 = document.querySelector("#answers label input.slected");
-    //             console.log(selectedInput2);
-
-    //             // if (selectedInput2.innerHTML === questions[questionNumber].correct_answer)
-    //         }
-    //     })
-    // }
 }
 
-function random(arr, numero) {
-    let numeroRandom = Math.floor(Math.random() * numero + 1);
+function random(arr) {
+    let numeroRandom = Math.floor(Math.random() * 4);
     if (!arr.includes(numeroRandom)) {
         arr.push(numeroRandom);
         return numeroRandom;

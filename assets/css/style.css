@@ -141,15 +141,11 @@ body {
 #answers {
     margin-bottom: 100px;
     padding: 0 40px;
-}
-
-#answers .row {
     display: flex;
-    margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 #answers .answer {
-    width: 308px;
     height: 60px;
     margin: 0 auto;
     outline: 4px solid white;
@@ -160,6 +156,8 @@ body {
     font-weight: 700;
     color: white;
     cursor: pointer;
+    margin-bottom: 20px;
+    flex: 0 1 308px;
 }
 
 #answers .answer:hover {
