@@ -14,6 +14,7 @@ body {
     font-size: 1rem;
     font-weight: 400;
     color: white;
+    
 }
 
 .inter {
@@ -58,4 +59,32 @@ button:hover {
 #header-epicode img {
     width: 145px;
 }
+.primo {
+    width: 450px;
+    line-height: 3rem;
+    font-size: 4rem ;
+    border: none;
+    color: white;
+    text-align: left;
 
+}
+.primo span{
+    font-weight: 700;
+}
+.secondario{
+    padding: 0 90px;
+}
+.secondo{
+
+    font-size: 1.5rem ;
+    color: var(--pink);
+    line-height: 0.5rem;
+   
+}
+
+.terzo-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+}
