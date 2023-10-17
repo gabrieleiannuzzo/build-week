@@ -3,6 +3,13 @@ let select = document.querySelector("select");
 let secondButton = document.getElementById("second-button");
 let choicesDiv = document.getElementById("choices");
 
+
+
+
+
+
+
+
 secondButton.addEventListener("click", () => {
     let questionsNumber = input.value;
     let difficulty = select.value;
@@ -49,16 +56,19 @@ secondButton.addEventListener("click", () => {
         let questionCounter = document.createElement("p");
         questionCounter.id = "question-number";
         quizInfo.append(questionCounter);
-        let prosegui = document.createElement("button");
-        prosegui.id = "answer-button";
-        prosegui.classList.add("button");
-        prosegui.classList.add("inter");
-        prosegui.innerText = "PROCEED";
-        quizInfo.append(prosegui);
 
         startTest(questionsNumber, difficulty);
     }
 });
+
+
+
+
+
+
+
+
+
 
 function startTest (questionsNumber, difficulty) {
     let questions = [];
@@ -71,12 +81,24 @@ function startTest (questionsNumber, difficulty) {
         console.log(questions);
         let score = 0;
         let questionNumber = 0;
+        let arrayDomande = [];
 
-        generateQuestion(questions, questionsNumber, questionNumber, score);
+        let scoreTotale = generateQuestion(questions, questionsNumber, questionNumber, score, arrayDomande);
     });
 }
 
-function generateQuestion (questions, questionsNumber, questionNumber, score) {
+
+
+
+
+
+
+
+function generateQuestion (questions, questionsNumber, questionNumber, score, arrayDomande) {
+    // CERCO UN EVENTUALE PULSANTE E LO DISTRUGGO
+    let proceedButton = document.getElementById("answer-button");
+    if (proceedButton) proceedButton.remove();
+
     // AGGIUNTA TESTO DELLA DOMANDA
     let questionTitle = document.getElementById("question");
     questionTitle.innerHTML = questions[questionNumber].question;
@@ -92,101 +114,95 @@ function generateQuestion (questions, questionsNumber, questionNumber, score) {
     let answersDiv = document.getElementById("answers");
     answersDiv.innerHTML = "";
 
+    // RISPOSTE RANDOMICHE
+    let arrayRisposte = [];
+    for (let i = 0; i < questions[questionNumber].incorrect_answers.length + 1; i++) {
+        if (i == questions[questionNumber].incorrect_answers.length) {
+            arrayRisposte[i] = questions[questionNumber].correct_answer;
+        } else {
+            arrayRisposte[i] = questions[questionNumber].incorrect_answers[i];
+        }
+    }
+    let j = arrayRisposte.length, k, temp;
+    while(--j > 0){
+        k = Math.floor(Math.random()*(j+1));
+        temp = arrayRisposte[k];
+        arrayRisposte[k] = arrayRisposte[j];
+        arrayRisposte[j] = temp;
+    }
+
     // CREAZIONE DOMANDA
     if (questions[questionNumber].type === "multiple") {
-        let array = [];
-        let arr = [];
-        for (let i = 0; i < questions[questionNumber].incorrect_answers.length + 1; i++) {
+        for (i = 0; i < arrayRisposte.length; i++) {
             // CREO I PULSANTI DELLE RISPOSTE
             let answerButton = document.createElement("button");
             answerButton.classList.add("answer");
             answerButton.classList.add("center");
+            answerButton.innerHTML = arrayRisposte[i];
             answersDiv.append(answerButton);
-
-            let numeroRandom = random(array, questions[questionNumber].incorrect_answers.length);
-            if (numeroRandom == questions[questionNumber].incorrect_answers.length) {
-                answerButton.innerHTML = questions[questionNumber].correct_answer;
-            } else {
-                answerButton.innerHTML = questions[questionNumber].incorrect_answers[numeroRandom - 1];
-            }
 
             answerButton.addEventListener("click", () => {
                 // RESETTO E RIASSEGNO LA SELEZIONE DELLA RISPOSTA
                 let selectedAnswer = document.querySelector(".selected");
                 if (selectedAnswer) selectedAnswer.classList.remove("selected");
                 answerButton.classList.add("selected");
-
-                let proceedButton = document.getElementById("answer-button");
+                arrayDomande[questionNumber] = answerButton.innerHTML;
             });
         }
     } else {
-        let label1 = document.createElement("label");
-        let label2 = document.createElement("label");
-        label1.innerHTML = '<input type="radio" name="selection" value="true"> True';
-        label2.innerHTML = '<input type="radio" name="selection" value="false"> False';
-        answersDiv.append(label1);
-        answersDiv.append(label2);
-    }
-
-    let buttons = document.querySelectorAll("#answers .row .answer");
-    let inputs = document.querySelectorAll("#answers label input");
-    let answerButton = document.getElementById("answer-button");
-
-    for (let b of buttons) {
-        b.addEventListener("click", () => {
-            let selectedAnswer = document.querySelector(".selected");
-            if (selectedAnswer) selectedAnswer.classList.remove("selected");
-
-            b.classList.add("selected");
-
-            answerButton.addEventListener("click", proceed());
-
-            function proceed () {
-                let selected = document.querySelector("#answers .row .answer.selected");
-
-                if (selected.innerHTML === questions[questionNumber].correct_answer) {
-                    selected.classList.add("correct");
-                    score += 1;
-                    questionNumber += 1; // FIN QUI CI SIAMO
-                } else if (selected.innerHTML === questions[questionNumber].incorrect_answers[0] || selected.innerHTML === questions[questionNumber].incorrect_answers[1] || selected.innerHTML === questions[questionNumber].incorrect_answers[2]) {
-                    selected.classList.add("wrong");
-                    questionNumber += 1;
-                }
-
-                if (questionNumber < questionsNumber - 1) {
-                    answerButton.removeEventListener("click", proceed());
-                    setTimeout(generateQuestion(questions, questionsNumber, questionNumber, score), 2000);
-                } else {
-                }
+        for (i = 0; i < 2; i++) {
+            // CREO I PULSANTI DELLE RISPOSTE
+            let answerButton = document.createElement("button");
+            answerButton.classList.add("answer");
+            answerButton.classList.add("center");
+            if (i == 0) {
+                answerButton.innerHTML = "True"
+            } else {
+                answerButton.innerHTML = "False";
             }
-        });
+            answersDiv.append(answerButton);
+
+            answerButton.addEventListener("click", () => {
+                // RESETTO E RIASSEGNO LA SELEZIONE DELLA RISPOSTA
+                let selectedAnswer = document.querySelector(".selected");
+                if (selectedAnswer) selectedAnswer.classList.remove("selected");
+                answerButton.classList.add("selected");
+                arrayDomande[questionNumber] = answerButton.innerHTML;
+            });
+        }
     }
 
-    // for (i of inputs) {
-    //     i.addEventListener("click", () => {
-    //         let selctedInput = document.querySelector("#answers label input.selectedInput");
-    //         if (selctedInput) selectedInput.classList.remove("selectedInput");
+    // CREO IL BUTTON PER L'INVIO DELLA RISPOSTA
+    proceedButton = document.createElement("button");
+    let quizInfo = document.getElementById("quiz-info");
+    proceedButton.id = "answer-button";
+    proceedButton.classList.add("button");
+    proceedButton.classList.add("inter");
+    proceedButton.innerText = "PROCEED";
+    quizInfo.append(proceedButton);
 
-    //         i.classList.add("selectedInput");
+    // VEDO SE LA RISPOSTA E GIUSTA, POI SE CI SONO ALTRE DOMANDE GENERO UNA NUOVA DOMANDA, ALTRIMENTI PROCEDO ALLA PAGINA SUCCESSIVA
+    proceedButton.addEventListener("click", () => {
+        let selected = document.querySelector(".answer.selected");
 
-    //         answerButton.addEventListener("click", proceedInput());
+        if (selected) {
+            if (selected.innerHTML == questions[questionNumber].correct_answer) {
+                selected.classList.add("correct");
+                score += 1;
+                questionNumber += 1;
+            } else {
+                selected.classList.add("wrong");
+                questionNumber += 1;
+            }
+        } // FIN QUI CI SIAMO
 
-    //         function proceedInput () {
-    //             let selectedInput2 = document.querySelector("#answers label input.slected");
-    //             console.log(selectedInput2);
-
-    //             // if (selectedInput2.innerHTML === questions[questionNumber].correct_answer)
-    //         }
-    //     })
-    // }
-}
-
-function random(arr, numero) {
-    let numeroRandom = Math.floor(Math.random() * numero + 1);
-    if (!arr.includes(numeroRandom)) {
-        arr.push(numeroRandom);
-        return numeroRandom;
-    }
-
-    return random(arr);
+        if (questionNumber < questions.length) {
+            console.log(score);
+            setTimeout(() => {
+                setTimeout(generateQuestion(questions, questionsNumber, questionNumber, score, arrayDomande));
+            }, 1000);
+        } else {
+            return score;
+        }
+    });
 }
