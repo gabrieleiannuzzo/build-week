@@ -83,7 +83,7 @@ function startTest (questionsNumber, difficulty) {
         let questionNumber = 0;
         let arrayDomande = [];
 
-        let scoreTotale = generateQuestion(questions, questionsNumber, questionNumber, score, arrayDomande);
+        generateQuestion(questions, questionsNumber, questionNumber, score, arrayDomande);
     });
 }
 
@@ -194,15 +194,15 @@ function generateQuestion (questions, questionsNumber, questionNumber, score, ar
                 selected.classList.add("wrong");
                 questionNumber += 1;
             }
-        } // FIN QUI CI SIAMO
 
-        if (questionNumber < questions.length) {
-            console.log(score);
-            setTimeout(() => {
-                setTimeout(generateQuestion(questions, questionsNumber, questionNumber, score, arrayDomande));
-            }, 1000);
-        } else {
-            return score;
-        }
+            if (questionNumber < questions.length) {
+                console.log(score);
+                setTimeout(() => {
+                    setTimeout(generateQuestion(questions, questionsNumber, questionNumber, score, arrayDomande));
+                }, 1000);
+            } else {
+                return score;
+            }
+        } // FIN QUI CI SIAMO
     });
 }
