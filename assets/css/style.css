@@ -15,6 +15,7 @@ body {
     font-size: 1rem;
     font-weight: 400;
     color: white;
+    background-color: var(--blue);
 }
 
 .inter {
@@ -59,6 +60,10 @@ body {
     margin: 0 auto;
     background-image: url(../images/bg.jpg);
     background-size: cover;
+
+    border-right: 2px solid white;
+    border-left: 2px solid white;
+    box-shadow: 0 0 20px var(--pink);
 }
 
 /* HEADER */

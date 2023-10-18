@@ -95,18 +95,20 @@ secondButton.addEventListener("click", () => {
 
 function startTest (questionsNumber, difficulty) {
     let questions = [];
-    let string = "https://opentdb.com/api.php?amount=number&category=18&difficulty=easy"
+    let string = "https://opentdb.com/api.php?amount=number&category=18&difficulty=easy";
     let fetchString = string.replace("number", questionsNumber);
     fetchString = fetchString.replace("easy", difficulty);
+
+    let score = 0;
+    let questionNumber = 0;
+    let arrayDomande = [];
 
     fetch(fetchString).then(res => res.json()).then(domande => {
         questions = domande.results;
         console.log(questions);
-        let score = 0;
-        let questionNumber = 0;
-        let arrayDomande = [];
-
         generateQuestion(questions, questionsNumber, questionNumber, score, arrayDomande);
+
+        console.log(score);
     });
 }
 
@@ -287,3 +289,5 @@ function generateQuestion (questions, questionsNumber, questionNumber, score, ar
         }
     });
 }
+
+// FARE UN PUSH DI OGNI DOMANDA IN UN ARRAY ESTERNO, INSERITO DENTRO IL FETCH (PER SOSTITUIRE IL RETURN);
