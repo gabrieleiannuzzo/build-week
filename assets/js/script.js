@@ -1,6 +1,15 @@
 const checkbox = document.getElementById('accept');
 const button = document.querySelector('.terzo-div button');
+let checkMark = document.getElementById("checkmark");
 button.addEventListener("click",goToTest);
+
+checkbox.addEventListener("change", () => {
+    if (checkMark.innerHTML == "") {
+        checkMark.innerHTML = '<i class="fas fa-check"></i>';
+    } else {
+        checkMark.innerHTML = "";
+    }
+})
 
 function goToTest(){
     if (checkbox.checked) {
@@ -186,7 +195,7 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
     externalDiv.append(internalDiv);
     header.append(externalDiv);
 
-    let timer = 60;
+    let timer = 5;
     let timeEnded = false;
     seconds.innerText = timer;
     let timerInterval = setInterval(() => {
@@ -197,6 +206,16 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
             proceedButton.click();
         }
     }, 1000);
+
+    // AGGIUNTA FUNZIONALITA PER CLICK ESTERNO
+    let container = document.getElementById("container-epicode");
+    function gestisciClickEsterno (event) {
+        if (!container.contains(event.target)) {
+            container.classList.add("blur");
+        }
+    }
+
+    // container.addEventListener("click", gestisciClickEsterno);
 
     // AGGIUNTA TESTO DELLA DOMANDA
     let questionTitle = document.getElementById("question");
@@ -291,6 +310,11 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
             } else {
                 selected.classList.add("wrong");
                 questionNumber += 1;
+
+                let answerButtons = document.querySelectorAll("#answers .answer");
+                for (let answer of answerButtons) {
+                    if (answer.innerHTML == questions[questionNumber - 1].correct_answer) answer.classList.add("correct");
+                }
             }
 
             if (questionNumber < questions.length) {
@@ -314,6 +338,11 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
                 } else {
                     selected.classList.add("wrong");
                     questionNumber += 1;
+
+                    let answerButtons = document.querySelectorAll("#answers .answer");
+                    for (let answer of answerButtons) {
+                        if (answer.innerHTML == questions[questionNumber - 1].correct_answer) answer.classList.add("correct");
+                    }
                 }
     
                 if (questionNumber < questions.length) {
@@ -494,4 +523,3 @@ function goToReview () {
 // aggiungere blur e timer se si clicca fuori dalla pagina
 // aggiungere easter egg all'ultimo pulsante
 // accorciare il codice dove si può
-// inserire che la domanda corretta viene evidenziata di verde
