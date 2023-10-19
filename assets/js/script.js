@@ -155,13 +155,6 @@ function startTest (questionsNumber, difficulty) {
     });
 }
 
-
-
-
-
-
-
-
 function generateQuestion (questions, questionsNumber, questionNumber, arrayDomande) {
     // CERCO UN EVENTUALE PULSANTE E LO DISTRUGGO
     let proceedButton = document.getElementById("answer-button");
@@ -438,4 +431,67 @@ function calculatePercentage (risposteCorrette, domandeTotali) {
     wrongP.innerText = wrongPercentage + "%";
     correctNumberP.innerText = risposteCorrette + "/" + domandeTotali + " questions";
     wrongNumberP.innerText = (domandeTotali - risposteCorrette) + "/" + domandeTotali + " questions";
+
+    let button = document.querySelector(".rate-button");
+    button.addEventListener("click", goToReview);
 }
+
+function goToReview () {
+    let containerTitle = document.getElementById("container-title");
+    let answerText = document.getElementById("answer-text");
+    let rateButton = document.querySelector(".rate-button");
+    containerTitle.remove();
+    answerText.remove();
+    rateButton.remove();
+
+    let target = document.getElementById("container-epicode");
+    let templateReview = document.getElementById("template-review");
+    let clone = document.importNode(templateReview.content, true);
+    target.append(clone);
+    console.log(clone);
+
+    let stars = document.querySelectorAll(".stelle svg");
+    console.log(stars);
+    for (let star of stars) {
+        star.addEventListener("mouseenter", () => {
+            star.classList.add("onhover");
+            let sibling = star.previousElementSibling;
+            while(sibling) {
+                sibling.classList.add("onhover");
+                sibling = sibling.previousElementSibling;
+            }
+        });
+
+        star.addEventListener("mouseleave", () => {
+            for (let i of stars) i.classList.remove("onhover");
+        });
+
+        star.addEventListener("click", () => {
+            if (star.classList.contains("onclick") && !(star.nextElementSibling.classList.contains("onclick"))) {
+                for (i of stars) {
+                    i.classList.remove("onclick");
+                    i.classList.remove("onhover");
+                }
+            } else {
+                for (i of stars) {
+                    if (i.classList.contains("onclick")) {
+                        i.classList.remove("onclick");
+                    }
+                }
+                star.classList.add("onclick");
+                let sibling = star.previousElementSibling;
+                while(sibling) {
+                    sibling.classList.add("onclick");
+                    sibling = sibling.previousElementSibling;
+                }
+            }
+        })
+    }
+}
+
+// aggiungere stile al timer
+// verificare domande e innerHTML
+// aggiungere blur e timer se si clicca fuori dalla pagina
+// aggiungere easter egg all'ultimo pulsante
+// accorciare il codice dove si può
+// inserire che la domanda corretta viene evidenziata di verde

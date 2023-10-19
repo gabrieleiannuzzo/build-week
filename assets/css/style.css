@@ -431,3 +431,112 @@ body {
     left: 64px;
     color: red;
 }
+
+/* REVIEW PAGE */
+#recommend {
+    color: #e3e3e8;
+    font-size: 1.5rem;
+    padding-top: 20px;
+    display: block;
+    text-align: center;
+}
+
+.stelle{
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.commento{
+    text-align: center;
+    padding-top: 30px;
+}
+
+.commento-a{
+    color:white;
+    text-align: center;
+}
+
+.grassetto{
+    padding-top: 80px;
+}
+
+.stelle{
+    padding-top: 50px;
+    text-align: center;
+}
+
+.stelle svg {
+    transform: scale(0.82);
+}
+
+.stelle svg.onhover {
+    transform: scale(1);
+}
+
+.stelle svg.onhover path {
+    fill: #00ffff;
+}
+
+.stelle svg.onclick {
+    transform: scale(1);
+}
+
+.stelle svg.onclick path {
+    fill: #00ffff;
+}
+
+.vuote-svg{
+    color: white;
+    background-color: black;
+}
+
+#contenitore{
+    text-align: center;
+}
+
+#h4{
+    margin-top: 30px;
+    font-size: 2.8rem;
+    font-weight: 800;
+    text-align: center;
+    color: #e7e7eb;
+}
+
+#h5{
+    margin-top: 60px;
+    font-size: 1.2rem;
+    font-weight: 200;
+    text-align: center;
+}
+
+.titolop{
+    text-align: center;
+    padding-top: 20px;
+}
+
+#comment{
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid var(--pink);
+    width: 100%;
+    margin-top: 40px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+}
+
+#comment:focus {
+    outline: none;
+}
+
+#review-button{
+    display: block;
+    margin:0 auto;
+    margin-top: 40px;
+}
+
+.contenitoredue{
+    width: 80%;
+    margin: 0 auto;
+}
