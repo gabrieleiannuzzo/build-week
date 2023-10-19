@@ -16,6 +16,7 @@ body {
     font-weight: 400;
     color: white;
     background-color: var(--blue);
+    position: relative;
 }
 
 .inter {
@@ -288,6 +289,45 @@ body {
 
 #quiz-info #question-number span {
     color: var(--pink);
+}
+
+#alert {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: transparent;
+    width: 300px;
+}
+
+#exclamation-point-div {
+    background-color: red;
+    box-shadow: 0 0 10px white;
+    margin-bottom: 20px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+#alert-div {
+    background-color: var(--blue);
+    box-shadow: 0 0 10px white;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+}
+
+#alert-info {
+    font-size: 1.2rem;
+}
+
+#alert-timer {
+    margin-top: 10px;
+    font-size: 3rem;
 }
 
 /* RESULTS PAGE */

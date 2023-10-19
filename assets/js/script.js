@@ -115,14 +115,39 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
     }, 1000);
 
     // AGGIUNTA FUNZIONALITA PER CLICK ESTERNO
-    let container = document.getElementById("container-epicode");
-    function gestisciClickEsterno (event) {
-        if (!container.contains(event.target)) {
-            container.classList.add("blur");
-        }
-    }
+    window.addEventListener("blur", () => {
+        let container = document.getElementById("container-epicode");
+        container.classList.add("blur");
+        
+        let alert = document.getElementById("alert");
+        alert.classList.remove("hide");
+        let timerAlertText = document.getElementById("alert-timer");
+        let timerAlert = 5;
+        timerAlertText.innerText = timerAlert;
+        let timerAlertInterval = setInterval(() => {
+            timerAlert--;
+            timerAlertText.innerText = timerAlert;
 
-    // container.addEventListener("click", gestisciClickEsterno);
+            window.addEventListener("click", () => {
+                alert.classList.add("hide");
+                clearInterval(timerAlertInterval);
+            })
+
+            if (timerAlert == 0) {
+                timeEnded = true;
+                alert.classList.add("hide");
+                proceedButton.click();
+                clearInterval(timerAlertInterval);
+            }
+        }, 1000);
+        
+        function unblur() {
+            container.classList.remove("blur");
+            document.body.removeEventListener("click", unblur);
+        }
+          
+        document.body.addEventListener("click", unblur);
+    });
 
     // AGGIUNTA TESTO DELLA DOMANDA
     let questionTitle = document.getElementById("question");
