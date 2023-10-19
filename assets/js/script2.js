@@ -106,7 +106,7 @@ function goToTest(){
         } else {
             // RIMOZIONE SELETTORI NUMERO DI DOMANDE E DIFFICOLTA E BOTTONE
             choicesDiv.remove();
-            secondButton.parentElement.remove();
+            secondButton.parentElement.remove();       
 
             // GENERAZIONE DIV VUOTI PER DOMANDE E INFO QUIZ
             let containerEpicode = document.getElementById("container-epicode");
@@ -124,141 +124,20 @@ function goToTest(){
             questionCounter.id = "question-number";
             quizInfo.append(questionCounter);
 
+            // GENERO IL PULSANTE
+            let proceedButton = document.createElement("button");
+            quizInfo = document.getElementById("quiz-info");
+            proceedButton.id = "answer-button";
+            proceedButton.classList.add("button");
+            proceedButton.classList.add("inter");
+            proceedButton.innerText = "PROCEED";
+            quizInfo.append(proceedButton);
+
             startTest(questionsNumber, difficulty);
         }
     });
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// let input = document.querySelector("input");
-// let select = document.querySelector("select");
-// let secondButton = document.getElementById("second-button");
-// let choicesDiv = document.getElementById("choices");
-
-// secondButton.addEventListener("click", () => {
-//   let questionsNumber = input.value;
-//   let difficulty = select.value;
-
-//   if (!questionsNumber || questionsNumber < 10 || questionsNumber > 40 || difficulty == "") {
-//     if (!questionsNumber || questionsNumber < 10 || questionsNumber > 40) {
-//       let inputError = document.getElementById("input-error");
-
-//       input.classList.add("red-border");
-//       inputError.classList.remove("hide");
-
-//       input.addEventListener("click", () => {
-//         input.classList.remove("red-border");
-//         inputError.classList.add("hide");
-//       });
-//     }
-
-//     if (!difficulty) {
-//       let selectError = document.getElementById("select-error");
-
-//       select.classList.add("red-border");
-//       selectError.classList.remove("hide");
-
-//       select.addEventListener("click", () => {
-//         select.classList.remove("red-border");
-//         selectError.classList.add("hide");
-//       });
-//     }
-//   } else {
-//     // RIMOZIONE SELETTORI NUMERO DI DOMANDE E DIFFICOLTA E BOTTONE
-//     choicesDiv.remove();
-//     secondButton.parentElement.remove();
-
-//     // GENERAZIONE DIV VUOTI PER DOMANDE E INFO QUIZ
-//     let containerEpicode = document.getElementById("container-epicode");
-//     let questionTitle = document.createElement("p");
-//     questionTitle.id = "question";
-//     questionTitle.classList.add("center");
-//     let answersDiv = document.createElement("div");
-//     answersDiv.id = "answers";
-//     let quizInfo = document.createElement("div");
-//     quizInfo.id = "quiz-info";
-//     containerEpicode.append(questionTitle);
-//     containerEpicode.append(answersDiv);
-//     containerEpicode.append(quizInfo);
-//     let questionCounter = document.createElement("p");
-//     questionCounter.id = "question-number";
-//     quizInfo.append(questionCounter);
-
-//     startTest(questionsNumber, difficulty);
-//   }
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function startTest(questionsNumber, difficulty) {
   let questions = [];
@@ -266,21 +145,14 @@ function startTest(questionsNumber, difficulty) {
   let fetchString = string.replace("number", questionsNumber);
   fetchString = fetchString.replace("easy", difficulty);
 
-  let score = 0;
   let questionNumber = 0;
-  let arrayDomande = [];
   let arrayCompletoDomande = [];
 
   fetch(fetchString).then(res => res.json()).then(domande => {
     questions = domande.results;
     console.log(questions);
 
-    for (let i = 0; i < questionsNumber; i++) {
-      if (i < questionsNumber - 1) {
-        generateObject(questions, i, arrayCompletoDomande);
-        generateQuestionTemplate(arrayCompletoDomande, i, questionsNumber);
-      }
-    }
+    generateQuestionTemplate(arrayCompletoDomande, questionNumber, questionsNumber, questions);
 
 
 
@@ -288,7 +160,19 @@ function startTest(questionsNumber, difficulty) {
   });
 }
 
-function generateObject(questions, i, arrayCompletoDomande) {
+
+
+
+
+
+
+
+
+
+
+
+function generateQuestionTemplate(arrayCompletoDomande, i, questionsNumber, questions) {
+  // AGGIUNGO LE INFO DELLA DOMANDA
   class Domanda {
     constructor(tipo, domanda, rispostaEsatta, risposteSbagliate) {
       this.tipo = tipo
@@ -304,18 +188,78 @@ function generateObject(questions, i, arrayCompletoDomande) {
   }
 
   let question = new Domanda(questions[i].type, questions[i].question, questions[i].correct_answer, questions[i].incorrect_answers);
+
   question.funzione();
-}
 
+  // RESETTO IL TIMER E LO RICREO
+  let timer = document.querySelector(".div-timer");
+  if (timer) timer.remove();
 
+  let header = document.getElementById("header-epicode");
+  let divTimer = document.createElement("div");
+  let canvas = document.createElement("canvas");
+  let write1 = document.createElement("p");
+  let write2 = document.createElement("p");
+  let seconds = document.createElement("p");
+  divTimer.classList.add("timer-container");
+  canvas.classList.add("my-timer");
+  write1.classList.add("write");
+  write2.classList.add("write");
+  write1.id = "write1";
+  write2.id = "write2";
+  seconds.id = "seconds";
+  write1.innerText = "SECONDS";
+  seconds.innerText = "60";
+  write2.innerText = "REMAINING";
+  divTimer.append(canvas);
+  divTimer.append(write1);
+  divTimer.append(seconds);
+  divTimer.append(write2);
+  header.append(divTimer);
 
+  const myTimer = document.querySelector(".my-timer");
+  const timerData = {
+      labels: ["secondiRimasti", "secondiTrascorsi"],
+      data: [0, 60],
+      backgroundColor: ["rgba(152, 105, 156, 0.9)", "#00ffff"],
+  }
+  let timeEnded = false;
+  
+  new Chart (myTimer, {
+      type: "doughnut",
+      data: {
+          labels: timerData.labels,
+          datasets: [
+              {
+                  label: "secondi",
+                  data: timerData.data,
+                  backgroundColor: timerData.backgroundColor,
+              }
+          ]
+      },
+  
+      options: {
+          borderWidth: 0,
+          borderRadius: 0,
+          cutout: 35,
+          plugins: {
+              legend: {
+                  display: false,
+              }
+          }
+      }
+  });
 
+  let timerInterval = setInterval(() => {
+    timerData.data[1]--;
+    timerData.data[0]++;
+    seconds.innerText = timerData.data[1];
 
-
-function generateQuestionTemplate(arrayCompletoDomande, i, questionsNumber) {
-  // CERCO UN EVENTUALE PULSANTE E LO DISTRUGGO *?
-  let proceedButton = document.getElementById("answer-button");
-  if (proceedButton) proceedButton.remove();
+    if (timerData.data[1] == 0) {
+      clearInterval(timerInterval);
+      timeEnded = true;
+    }
+  }, 1000);
 
   // AGGIUNTA TESTO DELLA DOMANDA
   let questionTitle = document.getElementById("question");
@@ -341,13 +285,14 @@ function generateQuestionTemplate(arrayCompletoDomande, i, questionsNumber) {
       arrayCompletoRisposte[j] = arrayCompletoDomande[i].risposteSbagliate[j];
     }
   }
-  let k = arrayRisposte.length, l, temp;
+  let k = arrayCompletoRisposte.length, l, temp;
   while (--j > 0) {
     l = Math.floor(Math.random() * (k + 1));
-    temp = arrayRisposte[l];
-    arrayRisposte[l] = arrayRisposte[k];
-    arrayRisposte[k] = temp;
+    temp = arrayCompletoRisposte[l];
+    arrayCompletoRisposte[l] = arrayCompletoRisposte[k];
+    arrayCompletoRisposte[k] = temp;
   }
+  console.log(arrayCompletoRisposte)
 
   // CREAZIONE DOMANDA
   if (arrayCompletoDomande[i].type === "multiple") {
@@ -419,20 +364,6 @@ function generateQuestion(questions, questionsNumber, questionNumber, score, arr
   proceedButton.classList.add("inter");
   proceedButton.innerText = "PROCEED";
   quizInfo.append(proceedButton);
-
-  // RESETTO IL TIMER
-  let timer = document.getElementById("seconds");
-  let seconds = 60;
-  let timeEnded = false;
-  timer.innerText = seconds;
-  let timerInterval = setInterval(() => {
-    seconds--;
-    timer.innerText = seconds;
-    if (seconds == 0) {
-      timeEnded = true;
-      proceedButton.click();
-    }
-  }, 1000);
 
   // VEDO SE LA RISPOSTA E GIUSTA, POI SE CI SONO ALTRE DOMANDE GENERO UNA NUOVA DOMANDA, ALTRIMENTI PROCEDO ALLA PAGINA SUCCESSIVA
   proceedButton.addEventListener("click", () => {
