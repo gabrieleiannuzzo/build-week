@@ -307,7 +307,9 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
                 }, 1000);
             } else  {
                 clearInterval(timerInterval);
-                goToResults(questions, arrayDomande);
+                setTimeout(() => {
+                    setTimeout(goToResults(questions, arrayDomande));
+                }, 1000);
             }
         } // FIN QUI CI SIAMO
 
@@ -328,7 +330,9 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
                     }, 1000);
                 } else  {
                     clearInterval(timerInterval);
-                    goToResults(questions, arrayDomande);
+                    setTimeout(() => {
+                        setTimeout(goToResults(questions, arrayDomande));
+                    }, 1000);
                 }
             } else {
                 questionNumber += 1;
@@ -339,7 +343,9 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
                     }, 1000);
                 } else  {
                     clearInterval(timerInterval);
-                    goToResults(questions, arrayDomande);
+                    setTimeout(() => {
+                        setTimeout(goToResults(questions, arrayDomande));
+                    }, 1000);
                 }
             }
         }
@@ -347,4 +353,89 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
 }
 
 function goToResults (questions, arrayDomande) {
+    let risposteCorrette = 0;
+    let domandeTotali = questions.length;
+
+    for (let i = 0; i < arrayDomande.length; i++) {
+        if (arrayDomande[i] == questions[i].correct_answer) {
+            risposteCorrette += 1;
+        }
+    }
+
+    let timer = document.getElementById("external-div");
+    let question = document.getElementById("question");
+    let answers = document.getElementById("answers");
+    let quizInfo = document.getElementById("quiz-info");
+    timer.remove();
+    question.remove();
+    answers.remove();
+    quizInfo.remove();
+
+    let target = document.getElementById("container-epicode");
+    let templateResults = document.getElementById("template-results");
+    let clone = document.importNode(templateResults.content, true);
+    target.append(clone);
+
+    calculatePercentage(risposteCorrette, domandeTotali);
+}
+
+function calculatePercentage (risposteCorrette, domandeTotali) {
+    let correctPercentage = ((risposteCorrette / domandeTotali) * 100).toFixed(1);
+    let wrongPercentage = (100 - correctPercentage).toFixed(1);
+
+    if (correctPercentage < 60) {
+        let titleCircle = document.getElementById("title-circle");
+        let textBlue = document.getElementById("text-blue");
+        let textCircle = document.getElementById("text-circle-certificate");
+
+        titleCircle.innerText = "Bad job";
+        textBlue.innerText = "You didn't pass the exam";
+        textCircle.innerText = "Michele is furious with you. During the next lesson you will be obliged to create some pages without using &lt;div> tags";
+
+        titleCircle.classList.add("not-passed");
+        textBlue.classList.add("not-passed");
+    }
+
+    const myChart = document.querySelector(".my-chart");
+    const chartData = {
+        labels: ["sbagliate", "corrette"],
+        data: [domandeTotali - risposteCorrette, risposteCorrette],
+        backgroundColor: ["#c2128d", "#00ffff"],
+    }
+
+    new Chart (myChart, {
+        type: "doughnut",
+        data: {
+            labels: chartData.labels,
+            datasets: [
+                {
+                    label: "Domande",
+                    data: chartData.data,
+                    backgroundColor: chartData.backgroundColor,
+                }
+            ]
+        },
+
+        options: {
+            borderWidth: 0,
+            borderRadius: 0,
+            weight: 10,
+            cutout: 105,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            }
+        }
+    });
+
+    let correctP = document.getElementById("percentuale-correct");
+    let wrongP = document.getElementById("percentuale-wrong");
+    let correctNumberP = document.getElementById("questions-correct");
+    let wrongNumberP = document.getElementById("questions-wrong");
+
+    correctP.innerText = correctPercentage + "%";
+    wrongP.innerText = wrongPercentage + "%";
+    correctNumberP.innerText = risposteCorrette + "/" + domandeTotali + " questions";
+    wrongNumberP.innerText = (domandeTotali - risposteCorrette) + "/" + domandeTotali + " questions";
 }

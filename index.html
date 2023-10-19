@@ -64,6 +64,40 @@
         <div id="second-button-div">
             <button class="button inter" id="second-button">PROCEED</button>
         </div> -->
+
+        <template id="template-results">
+            <div id="container-title">
+                <div id="title">
+                    <h2>Results</h2>
+                    <h4>The summary of your answers:</h4>
+                </div>
+            </div>
+    
+            <div id="answer-text">
+                <div id="correct-zone">
+                    <div id="correct">Correct</div>
+                    <div id="percentuale-correct"></div>
+                    <div id="questions-correct"></div>
+                </div>
+    
+                <div class="chart-container">
+                    <canvas class="my-chart"></canvas>
+                    <div id="text-circle" class="inter">
+                    </div>
+                    <p id="title-circle">Congratulations!</p>
+                    <p id="text-blue">You passed the exam.</p>
+                    <p id="text-circle-certificate">We'll send you the certificate in few minutes. Check your email (including promotions / spam folder)</p>
+                </div>
+            
+                <div id="wrong-zone">
+                    <div id="wrong">Wrong</div>
+                    <div id="percentuale-wrong"></div>
+                    <div id="questions-wrong"></div>
+                </div>
+            </div>
+            
+            <button class="rate-button">RATE US</button>
+        </template>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

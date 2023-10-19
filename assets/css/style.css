@@ -172,7 +172,7 @@ body {
     align-items: center;
 }
 
-#accept+ {
+#accept {
     width: 12px;
     height: 12px;
     color: transparent;
@@ -276,4 +276,158 @@ body {
 
 #quiz-info #question-number span {
     color: var(--pink);
+}
+
+/* RESULTS PAGE */
+.text-grass {
+    color: white;
+}
+
+/* TITLE */
+#container-title{
+    text-align: center;
+    margin-top: -40px;
+    margin-bottom: 50px;
+}
+
+#title h2 {
+    font-weight: 800;
+    font-size: 2.7rem;   
+}
+
+#title h4  {
+    font-weight: 400;
+    font-size: 1.5rem;
+    padding-top: 5px;
+}
+
+/* ANSWER TEXT */
+#answer-text {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* CORRECT */
+#correct-zone {
+    text-align: left;
+}
+
+#correct {
+    font-size: 3rem;
+}
+
+#percentuale-correct {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+#questions-correct {
+    font-size: 18px;
+}
+
+/* WRONG */
+#wrong-zone{
+    text-align: right;
+}
+
+#wrong {
+    font-size: 3rem;
+}
+
+#percentuale-wrong {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+#questions-wrong {
+    font-size: 18px;
+}
+
+/* CIRCLE TEXT */
+#text-circle {
+    text-align: center;
+    padding-top: 135px;
+    height: 175px;
+    width: 175px;
+    position: absolute;
+    top: 65px;
+    left: 65px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container p {
+    position: absolute;
+}
+
+#title-circle {
+    font-weight: bold;
+    top: 100px;
+    left: 90px;
+}
+
+#text-blue {
+    font-weight: bold;
+    color: var(--lightblue);
+    padding-top: 4px;
+    top: 114px;
+    left: 75px;
+}
+
+#text-circle-certificate {
+    font-size: 13px;
+    top: 150px;
+    left: 77px;
+    width: 150px;
+    text-align: center;
+}
+
+/* BUTTON */
+.rate-button {
+    width: 205px;
+    height: 55px;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    margin: 10px;
+    cursor: pointer;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    margin: 55px auto 0 auto;
+}
+
+.rate-button:hover {
+    background-color: var(--lightblue);
+    color: black;
+    border: 2px solid black;
+}
+
+.chart-container {
+    width: 305px;
+    height: 305px;
+    position: relative;
+    margin-right: 10px;
+}
+
+.chart-container canvas {
+    width: 100%;
+}
+
+#title-circle.not-passed {
+    left: 121px
+}
+
+#text-blue.not-passed {
+    left: 64px;
+    color: red;
 }
