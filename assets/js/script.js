@@ -104,9 +104,11 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
 
     let timer = 60;
     let timeEnded = false;
+    let externalDiv = document.getElementById("external-div");
     seconds.innerText = timer;
     let timerInterval = setInterval(() => {
         timer--;
+        externalDiv.style.background = `conic-gradient(rgba(215, 215, 215, 0.3) 0%, rgba(215, 215, 215, 0.3) ${(100/60) * (60 - timer) - 0.0001}%, #00ffff ${(100/60) * (60 - timer)}%)`;
         seconds.innerText = timer;
         if (timer == 0) {
             timeEnded = true;
@@ -115,7 +117,7 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
     }, 1000);
 
     // AGGIUNTA FUNZIONALITA PER CLICK ESTERNO
-    window.addEventListener("blur", () => {
+    function handleBlur () {
         let container = document.getElementById("container-epicode");
         container.classList.add("blur");
         
@@ -131,11 +133,11 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
             window.addEventListener("click", () => {
                 alert.classList.add("hide");
                 clearInterval(timerAlertInterval);
-            })
+            });
 
             if (timerAlert == 0) {
                 timeEnded = true;
-                alert.classList.add("hide");
+                alert.classList.remove("hide");
                 proceedButton.click();
                 clearInterval(timerAlertInterval);
             }
@@ -147,7 +149,9 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
         }
           
         document.body.addEventListener("click", unblur);
-    });
+    }
+
+    window.addEventListener("blur", handleBlur);
 
     // AGGIUNTA TESTO DELLA DOMANDA
     let questionTitle = document.getElementById("question");
@@ -234,6 +238,8 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
     // VEDO SE LA RISPOSTA E GIUSTA, POI SE CI SONO ALTRE DOMANDE GENERO UNA NUOVA DOMANDA, ALTRIMENTI PROCEDO ALLA PAGINA SUCCESSIVA
     proceedButton.addEventListener("click", () => {
         let selected = document.querySelector(".answer.selected");
+
+        if (questionNumber + 1 == questions.length) window.removeEventListener("blur", handleBlur);
 
         if (selected) {
             if (selected.innerHTML == questions[questionNumber].correct_answer) {
@@ -452,5 +458,6 @@ function goToReview () {
 
 // aggiungere stile al timer
 // verificare domande e innerHTML
-// aggiungere blur e timer se si clicca fuori dalla pagina
 // aggiungere easter egg all'ultimo pulsante
+
+// chiedere a michele del blur e della domanda HTML

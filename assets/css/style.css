@@ -91,14 +91,16 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 100%;
-    background-color: var(--lightblue);
+    background: conic-gradient(#00ffff 0%, #00ffff 49.9999%, #00ffff 50%);
 }
 
 #header-epicode #internal-div {
     height: 80px;
     width: 80px;
     border-radius: 100%;
-    background-color: var(--pink);
+    background-image: url(../images/bg.jpg);
+    background-size: auto 100vh;
+    background-position: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
