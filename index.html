@@ -42,28 +42,50 @@
             </div>
         </div>
 
-        <!-- <div id="choices">
-            <div class="choice">
-                <p class="choice-p">Choose how many questions you want to answer to (10 to 40)</p>
-                <input type="number">
-                <p class="error hide" id="input-error">You must enter a number between 10 and 40</p>
+        <template id="choices-template">
+          <div id="choices">
+            <div class="choice" id="div1">
+              <p class="choice-p">Choose how many questions you want to answer to (10 to 40)</p>
+              <input type="number">
+              <p class="error hide" id="input-error">You must enter a number between 10 and 40</p>
             </div>
-
-            <div class="choice">
-                <p class="choice-p">Choose the difficulty</p>
-                <select>
-                    <option value=""></option>
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
-                </select>
-                <p class="error hide" id="select-error">You must choose a difficulty</p>
+            <div class="choice" id="div2">
+              <p class="choice-p">Choose the difficulty</p>
+              <select>
+                <option value=""></option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+              <p class="error hide" id="select-error">You must choose a difficulty</p>
             </div>
-        </div>
+          </div>
 
-        <div id="second-button-div">
+          <div id="second-button-div">
             <button class="button inter" id="second-button">PROCEED</button>
-        </div> -->
+          </div>
+        </template>
+
+        <template id="questions-template">
+          <p id="question" class="center"></p>
+
+          <div id="answers"></div>
+
+          <div id="quiz-info">
+            <p id="question-number"></p>
+            <button id="answer-button" class="button inter">PROCEED</button>
+          </div>
+        </template>
+
+        <template id="timer-template">
+          <div id="external-div">
+            <div id="internal-div" class="center">
+              <p class="write">SECONDS</p>
+              <p id="seconds"></p>
+              <p class="write">REMAINING</p>
+            </div>
+          </div>
+        </template>
 
         <template id="template-results">
             <div id="container-title">

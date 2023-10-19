@@ -17,66 +17,9 @@ function goToTest(){
         let secondario = document.querySelector(".secondario");
         secondario.remove();
 
-        let choices = document.createElement("div");
-        choices.id = "choices";
-        for (let i = 0; i < 2; i++) {
-            let div1 = document.createElement("div");
-            let div2 = document.createElement("div");
-            let pChoice = document.createElement("p");
-            let pError = document.createElement("p");
-            div1.classList.add("choice");
-            div2.classList.add("choice");
-            pChoice.classList.add("choice-p");
-            pError.classList.add("error");
-            pError.classList.add("hide");
-            if (i == 0) {
-                pChoice.innerText = "Choose how many questions you want to answer to (10 to 40)";
-                pError.innerText = "You must enter a number between 10 and 40"
-                pError.id = "input-error";
-                let input = document.createElement("input");
-                input.setAttribute("type", "number");
-                div1.append(pChoice);
-                div1.append(input);
-                div1.append(pError);
-                choices.append(div1);
-            } else {
-                pChoice.innerText = "Choose the difficulty";
-                pError.innerText = "You must choose a difficulty";
-                pError.id = "select-error";
-                let select = document.createElement("select");
-                let option1 = document.createElement("option");
-                let option2 = document.createElement("option");
-                let option3 = document.createElement("option");
-                let option4 = document.createElement("option");
-                option1.value = "";
-                option1.innerText = "";
-                option2.value = "easy";
-                option2.innerText = "Easy";
-                option3.value = "medium";
-                option3.innerText = "Medium";
-                option4.value = "hard";
-                option4.innerText = "Hard";
-                select.append(option1);
-                select.append(option2);
-                select.append(option3);
-                select.append(option4);
-                div2.append(pChoice);
-                div2.append(select);
-                div2.append(pError);
-                choices.append(div2);
-            }
-        }
-
-        let secondButtonDiv = document.createElement("div");
-        let btn = document.createElement("button");
-        secondButtonDiv.id = "second-button-div";
-        btn.id = "second-button";
-        btn.classList.add("button");
-        btn.classList.add("inter");
-        btn.innerText = "PROCEED";
-        secondButtonDiv.append(btn);
-        target.append(choices);
-        target.append(secondButtonDiv);
+        let choices = document.getElementById("choices-template");
+        let clone = document.importNode(choices.content, true);
+        target.append(clone);
     }
 
     let input = document.querySelector("input");
@@ -118,29 +61,10 @@ function goToTest(){
             secondButton.parentElement.remove();
 
             // GENERAZIONE DIV VUOTI PER DOMANDE E INFO QUIZ
-            let containerEpicode = document.getElementById("container-epicode");
-            let questionTitle = document.createElement("p");
-            questionTitle.id = "question";
-            questionTitle.classList.add("center");
-            let answersDiv = document.createElement("div");
-            answersDiv.id = "answers";
-            let quizInfo = document.createElement("div");
-            quizInfo.id = "quiz-info";
-            containerEpicode.append(questionTitle);
-            containerEpicode.append(answersDiv);
-            containerEpicode.append(quizInfo);
-            let questionCounter = document.createElement("p");
-            questionCounter.id = "question-number";
-            quizInfo.append(questionCounter);
-
-            // GENERO IL PULSANTE
-            let proceedButton = document.createElement("button");
-            quizInfo = document.getElementById("quiz-info");
-            proceedButton.id = "answer-button";
-            proceedButton.classList.add("button");
-            proceedButton.classList.add("inter");
-            proceedButton.innerText = "PROCEED";
-            quizInfo.append(proceedButton);
+            let target = document.getElementById("container-epicode");
+            let questionsTemplate = document.getElementById("questions-template");
+            clone = document.importNode(questionsTemplate.content, true);
+            target.append(clone);
 
             startTest(questionsNumber, difficulty);
         }
@@ -170,32 +94,15 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
     if (proceedButton) proceedButton.remove();
 
     // GENERO IL TIMER
-
     let oldTimer = document.getElementById("external-div");
     if (oldTimer) oldTimer.remove();
     
     let header = document.getElementById("header-epicode");
-    let externalDiv = document.createElement("div");
-    let internalDiv = document.createElement("div");
-    let write1 = document.createElement("p");
-    let seconds = document.createElement("p");
-    let write2 = document.createElement("p");
-    externalDiv.id = "external-div";
-    internalDiv.id = "internal-div";
-    internalDiv.classList.add("center");
-    write1.classList.add("write");
-    seconds.id = "seconds";
-    write2.classList.add("write");
-    write1.innerText = "SECONDS";
-    seconds.innerText = "60";
-    write2.innerText = "REMAINING";
-    internalDiv.append(write1);
-    internalDiv.append(seconds);
-    internalDiv.append(write2);
-    externalDiv.append(internalDiv);
-    header.append(externalDiv);
+    let timerTemplate = document.getElementById("timer-template");
+    let clone = document.importNode(timerTemplate.content, true);
+    header.append(clone);
 
-    let timer = 5;
+    let timer = 60;
     let timeEnded = false;
     seconds.innerText = timer;
     let timerInterval = setInterval(() => {
@@ -522,4 +429,3 @@ function goToReview () {
 // verificare domande e innerHTML
 // aggiungere blur e timer se si clicca fuori dalla pagina
 // aggiungere easter egg all'ultimo pulsante
-// accorciare il codice dove si può
