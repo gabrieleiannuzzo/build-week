@@ -172,8 +172,12 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
     let arrayRisposte = [];
     for (let i = 0; i < questions[questionNumber].incorrect_answers.length + 1; i++) {
         if (i == questions[questionNumber].incorrect_answers.length) {
+            questions[questionNumber].correct_answer = questions[questionNumber].correct_answer.replaceAll("&lt;", "\<");
+            questions[questionNumber].correct_answer = questions[questionNumber].correct_answer.replaceAll("&gt;", "\>");
             arrayRisposte[i] = questions[questionNumber].correct_answer;
         } else {
+            questions[questionNumber].incorrect_answers[i] = questions[questionNumber].incorrect_answers[i].replace("&lt;", "\<");
+            questions[questionNumber].incorrect_answers[i] = questions[questionNumber].incorrect_answers[i].replace("&gt;", "\>");
             arrayRisposte[i] = questions[questionNumber].incorrect_answers[i];
         }
     }
@@ -258,6 +262,7 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
             if (questionNumber < questions.length) {
                 clearInterval(timerInterval);
                 setTimeout(() => {
+                    window.removeEventListener("blur", handleBlur);
                     setTimeout(generateQuestion(questions, questionsNumber, questionNumber, arrayDomande));
                 }, 1000);
             } else  {
@@ -452,12 +457,43 @@ function goToReview () {
                     sibling = sibling.previousElementSibling;
                 }
             }
-        })
+        });
     }
-}
 
-// aggiungere stile al timer
-// verificare domande e innerHTML
-// aggiungere easter egg all'ultimo pulsante
+    let button = document.getElementById("review-button");
+    button.addEventListener("click", () => {
+        randomX = Math.floor(Math.random() * 101);
+        randomY = Math.floor(Math.random() * 101);
+        button.style.position = "absolute";
+        button.style.top = `${randomX}vh`;
+        button.style.left = `${randomY}vw`;
+
+        switch (button.innerText) {
+            case "MORE INFO":
+                button.innerText = "DAI RIPROVA";
+                i++;
+                break;
+            case "DAI RIPROVA":
+                button.innerText = "RIPROVA POLLO";
+                i++;
+                break;
+            case "RIPROVA POLLO":
+                button.innerText = "POLLOOOOOOO";
+                i++;
+                break;
+            case "POLLOOOOOOO":
+                button.innerText = "VA BENE CLICCAMI";
+                i++;
+                break;
+            case "VA BENE CLICCAMI":
+                    button.innerText = "GIURO LA SMETTO :)";
+                    break;
+            case "GIURO LA SMETTO :)":
+                    window.open("https://www.youtube.com/watch?v=0acgpCo6HFc", "_blank");
+                    location.href = "index.html";
+                    break;
+            }
+    });
+}
 
 // chiedere a michele del blur e della domanda HTML
