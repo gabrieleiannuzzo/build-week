@@ -113,41 +113,41 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
     }, 1000);
 
     // AGGIUNTA FUNZIONALITA PER CLICK ESTERNO
-    function handleBlur () {
-        let container = document.getElementById("container-epicode");
-        container.classList.add("blur");
-        
-        let alert = document.getElementById("alert");
-        alert.classList.remove("hide");
-        let timerAlertText = document.getElementById("alert-timer");
-        let timerAlert = 5;
-        timerAlertText.innerText = timerAlert;
-        let timerAlertInterval = setInterval(() => {
-            timerAlert--;
+    window.addEventListener("blur", () => {
+        if (externalDiv) {
+            let container = document.getElementById("container-epicode");
+            container.classList.add("blur");
+            
+            let alert = document.getElementById("alert");
+            alert.classList.remove("hide");
+            let timerAlertText = document.getElementById("alert-timer");
+            let timerAlert = 5;
             timerAlertText.innerText = timerAlert;
-
-            window.addEventListener("click", () => {
-                alert.classList.add("hide");
-                clearInterval(timerAlertInterval);
-            });
-
-            if (timerAlert == 0) {
-                timeEnded = true;
-                alert.classList.remove("hide");
-                proceedButton.click();
-                clearInterval(timerAlertInterval);
+            let timerAlertInterval = setInterval(() => {
+                timerAlert--;
+                timerAlertText.innerText = timerAlert;
+    
+                window.addEventListener("click", () => {
+                    alert.classList.add("hide");
+                    clearInterval(timerAlertInterval);
+                });
+    
+                if (timerAlert == 0) {
+                    timeEnded = true;
+                    alert.classList.remove("hide");
+                    proceedButton.click();
+                    clearInterval(timerAlertInterval);
+                }
+            }, 1000);
+            
+            function unblur() {
+                container.classList.remove("blur");
+                document.body.removeEventListener("click", unblur);
             }
-        }, 1000);
-        
-        function unblur() {
-            container.classList.remove("blur");
-            document.body.removeEventListener("click", unblur);
+              
+            document.body.addEventListener("click", unblur);
         }
-          
-        document.body.addEventListener("click", unblur);
-    }
-
-    window.addEventListener("blur", handleBlur);
+    })
 
     // AGGIUNTA TESTO DELLA DOMANDA
     let questionTitle = document.getElementById("question");
@@ -165,6 +165,13 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
     answersDiv.innerHTML = "";
 
     // RISPOSTE RANDOMICHE
+    // let currentQuestion = questions[questionNumber];
+    // let arrayRisposte = [currentQuestion.correct_answer, ...currentQuestion.incorrect_answers];
+    // arrayRisposte = arrayRisposte.map(i => {
+    //     i.replaceAll("&lt;", "\<");
+    //     i.replaceAll("&gt;", "\>");
+    // });
+
     let arrayRisposte = [];
     for (let i = 0; i < questions[questionNumber].incorrect_answers.length + 1; i++) {
         if (i == questions[questionNumber].incorrect_answers.length) {
@@ -238,8 +245,6 @@ function generateQuestion (questions, questionsNumber, questionNumber, arrayDoma
     // VEDO SE LA RISPOSTA E GIUSTA, POI SE CI SONO ALTRE DOMANDE GENERO UNA NUOVA DOMANDA, ALTRIMENTI PROCEDO ALLA PAGINA SUCCESSIVA
     proceedButton.addEventListener("click", () => {
         let selected = document.querySelector(".answer.selected");
-
-        if (questionNumber + 1 == questions.length) window.removeEventListener("blur", handleBlur);
 
         if (selected) {
             if (selected.innerHTML == questions[questionNumber].correct_answer) {
